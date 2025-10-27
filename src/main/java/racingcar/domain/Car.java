@@ -1,6 +1,7 @@
 package racingcar.domain;
 
 import camp.nextstep.edu.missionutils.Randoms;
+import racingcar.exception.InvalidCarNameException;
 
 public class Car {
 
@@ -38,4 +39,12 @@ public class Car {
         return String.format("%s : %s", name, "-".repeat(position));
     }
 
+    private void validateName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new InvalidCarNameException();
+        }
+        if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
+            throw new InvalidCarNameException();
+        }
+    }
 }
