@@ -1,5 +1,6 @@
 package racingcar;
 
+import racingcar.domain.RacingGame;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
 
@@ -8,8 +9,17 @@ public class Application {
         var carNames = InputView.readCarNames();
         var tryCount = InputView.readTryCount();
 
+        var game = new RacingGame(carNames);
 
         OutputView.printResultHeader();
-        OutputView.printWinners(carNames);
+        repeatRace(game, tryCount);
+        OutputView.printWinners(game.winners());
+    }
+
+    private static void repeatRace(RacingGame game, int tryCount) {
+        for (int i = 0; i < tryCount; i++) {
+            game.playRound();
+            OutputView.printRoundResult(game.status());
+        }
     }
 }
