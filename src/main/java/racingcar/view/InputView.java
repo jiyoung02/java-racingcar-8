@@ -3,6 +3,7 @@ package racingcar.view;
 import camp.nextstep.edu.missionutils.Console;
 import java.util.Arrays;
 import java.util.List;
+import racingcar.exception.InvalidTryCountException;
 
 public class InputView {
 
@@ -18,7 +19,9 @@ public class InputView {
     public static int readTryCount() {
         System.out.println(TRY_COUNT_MESSAGE);
         String input = Console.readLine();
-        return parseTryCount(input);
+        int tryCount = Integer.parseInt(input);
+        validateTryCount(tryCount);
+        return tryCount;
     }
 
     private static List<String> parseCarNames(String input) {
@@ -27,8 +30,10 @@ public class InputView {
                 .toList();
     }
 
-    private static int parseTryCount(String input) {
-        int count = Integer.parseInt(input);
-        return count;
+
+    private static void validateTryCount(int count) {
+        if (count <= 0) {
+            throw new InvalidTryCountException();
+        }
     }
 }
