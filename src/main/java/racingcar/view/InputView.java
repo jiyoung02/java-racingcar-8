@@ -22,9 +22,9 @@ public class InputView {
     public static int readTryCount() {
         System.out.println(TRY_COUNT_MESSAGE);
         String input = Console.readLine();
-        int tryCount = Integer.parseInt(input);
-        validateTryCount(tryCount);
-        return tryCount;
+
+        int count = validateTryCount(input);
+        return count;
     }
 
     private static List<String> parseCarNames(String input) {
@@ -36,10 +36,22 @@ public class InputView {
     }
 
 
-    private static void validateTryCount(int count) {
-        if (count <= 0) {
-            throw new InvalidTryCountException();
+    private static int validateTryCount(String input) {
+        if (input == null || input.isBlank()) {
+            throw new InvalidTryCountException("값을 입력해주세요/");
         }
+        if (!isNumeric(input)) {
+            throw new InvalidTryCountException("시도 횟수는 숫자여야 합니다.");
+        }
+        int tryCount = Integer.parseInt(input);
+        if (tryCount <= 0) {
+            throw new InvalidTryCountException("시도 횟수는 1 이상의 정수여야 합니다.");
+        }
+        return tryCount;
+    }
+
+    private static boolean isNumeric(String input) {
+        return input.matches("\\d+");
     }
 
     private static void validateCarNames(List<String> names) {
